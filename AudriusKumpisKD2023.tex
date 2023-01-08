@@ -20,7 +20,7 @@
 \department{Programų sistemų bakalauro studijų programa}
 \papertype{Kursinis darbas}
 \title{Migracijos strategijos migruojant iš monolitinės į mikroservisų architektūrą}
-\titleineng{Migrating from monolith to microservices architecture}
+\titleineng{Strategies for migrating from monolith to microservices architecture}
 \author{Audrius Kumpis}
 \status{4 kurso, 2 grupės studentas}
 \supervisor{lekt. Vasilij Savin}
@@ -67,12 +67,14 @@ Pirmiausia aptarsime vieną iš populiariausių migravimo strategijų – skaidy
 \subsection{Strategijos aprašymas}
 Dekomponavimas skaidant domenus (angl. domain-driven refactoring) yra viena iš populiariausių migravimo strategijų. Ją labiausiai apsimoka naudoti tuomet, kai monolitas buvo kurtas laikantis domenais remtu kūrimu. Tačiau, ne visada būna taip, jog monolitas yra jau iškarto paruoštas migravimui. Pirmas ir svarbiausias žingsnis yra esminių domenų identifikavimas \cite{LZ22}. Kad esminių domenų identifikavimas būtų atliktas sėkmingai, privaloma įtraukti visus suinteresuotuosius asmenis minėtus anksčiau. Kai domenai yra sėkmingai identifikuoti, belieka juos iškelti į atskirus servisus.
 
+
 Esminių domenų atskyrimas yra tik dalis darbo. Kai domenai yra identifikuoti, negalima pereiti iškarto prie naujo mikroserviso kūrimo. Jei sekantis žingsnis bus atliktas neteisingai, galima susidurti su funkcionalumo dubliavimusi. Tai yra reiškinys, kai monolite esantis funkcionalumas vis dar gyvuoja šalia naujai sukurto to paties domeno mikroserviso. Tai gali sukelti papildomų problemų ir naudotojams, ir verslui.
+
 
 Šios problemos sprendimas buvo pristatytas jau 2011 metais, palyginus, mikroservisų idėja buvo pristatyta 2005 metais. Sprendimo idėja yra paprasta: kai naujo domeno funkcionalumas yra įgyvendintas mikroservise ir jau yra paruoštas naudojimui, sistema perima naujojo mikroserviso funkcionalumą ir nebenaudoja jo iš senosios sistemos. Tai yra daroma su kiekvienu esminiu, atrinktu domenu Tokiu būdu, monolitas yra „smaugiamas“ tol, kol jame nebebus nei vieno naudojamo domeno. Iš to ir seka šios taktikos pavadinimas – „Smaugiko šablonas“ \cite{Beh18}. Šis šablonas yra taikomas beveik visuomet, kai yra naudojamas dekomponavimo pagal domenus strategija.
 
 \subsection{Strategijos pritaikymas}
-Pereikime prie fiktyvios paskolų išdavimo sistemos. Šioje sistemoje yra naudojami 5 esminiai domenai: autentifikacijos, paskolos dydžio skaičiuoklė, išmokėjimo mechanizmas, kreditingumo skaičiuoklė, transakcijų gavimo mechanizmas. Visi šie domenai veikia darnoje ir yra priklausomi vienas nuo kito. Jų veikimas pavaizduotas šioje diagramoje:
+Šiame pavyzdžiui naudosime fiktyvią paskolų išdavimo sistemą. Šioje sistemoje yra naudojami 5 esminiai domenai: autentifikacijos, paskolos dydžio skaičiuoklė, išmokėjimo mechanizmas, kreditingumo skaičiuoklė, transakcijų gavimo mechanizmas. Visi šie domenai veikia darnoje ir yra priklausomi vienas nuo kito. Jų veikimas pavaizduotas šioje diagramoje:
 \begin{figure}[H]
     \centering
     \includegraphics[scale=1.0]{img/komponentu-diagrama.png}
@@ -90,6 +92,7 @@ Visi šie domenai – komponentai – priklauso vienas nuo kito. Jei bent vienas
 \end{figure}
 
 Naujai sukurtiems mikroservisams yra būtina kuo anksčiau priskirti atsakingas komandas. Šios komandos bus atsakingos už tolimesnius mikroservisų darbus, priežiūrą, keitimus, bei teisingos integracijos su dar laikinai naudojamu monolitu užtikrinimą. Taigi prieš visą migraciją privaloma įsivertinti, ar programavimo komandoje pakanka resursų priskirti žmonės specifiniams mikroservisams.
+
 
 Iš karto gali kilti klausimas: kaip atsirinkti, ką pirmiausia reikia iškelti į naują mikroservisą. Jei šis šablonas yra taikomas pirmą kartą programavimo komandoje, saugiausias variantas būtų pradėti nuo mažiausiai reikšmingo ir/ar mažiausio pagal dydį komponento. Tokiu būdu, komanda įgautų daugiau patirties darbui labiau svarbiems komponentams. Be šito, kiti galimi kandidatai yra \cite{Beh18}:
 \begin{itemize}

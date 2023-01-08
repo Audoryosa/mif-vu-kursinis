@@ -204,7 +204,6 @@
   \setcounter{footnote}{0}%
   % Nustatome dokumentui 1,5 eilutės intervalą
   \spacing{1.5}
-  \usepackage[skip=10pt plus1pt, indent=40pt]{parskip}
 }
 
 % Skyriaus pavadinimas, turinyje neturintis numerio
